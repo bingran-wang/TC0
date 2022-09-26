@@ -10,7 +10,7 @@ class aerodynamics(Model):
 
     def define(self):
         # declare inputs with default values
-        alpha = self.declare_variable('alpha',val = 0) #angle of attack (deg)
+        alpha = self.declare_variable('alpha',val = 4) #angle of attack (deg)
         AR = self.declare_variable('AR',val = 6) # aspect ratio
         S = self.declare_variable('S',val = 6) # wing area (m^2)
         rho = self.declare_variable('rho',val = 0.7) #density of air (kg/m^3)
@@ -26,7 +26,7 @@ class aerodynamics(Model):
 
         Cd = Cd_min +1/(np.pi*e*AR)*Cl**2 + K*(Cl-Cl0)**2
         Cm = csdl.custom(alpha, op=AeroExplicit())
-        Cl_max = alpha +1
+        Cl_max = 1.5820 + alpha - alpha
 
         self.register_output('Cl', Cl)
         self.register_output('Cd', Cd)
@@ -69,3 +69,4 @@ sim.run()
 print('Cl = ', sim['Cl'])
 print('Cd = ', sim['Cd'])
 print('Cm = ', sim['Cm'])
+print('Cl_max = ', sim['Cl_max'])
